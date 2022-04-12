@@ -6,6 +6,7 @@ export default {
     return {
       message: "Places",
       places: [],
+      currentPlace: {},
     };
   },
   created: function () {
@@ -14,7 +15,13 @@ export default {
       console.log("All Places", this.places);
     });
   },
-  methods: {},
+  methods: {
+    showPlace: function (place) {
+      console.log(place);
+      this.currentPlace = place;
+      document.querySelector("#place-details").showModal();
+    },
+  },
 };
 </script>
 
@@ -25,6 +32,21 @@ export default {
     <div v-for="place in places" v-bind:key="place.id">
       <p>{{ place.name }}</p>
       <p>{{ place.address }}</p>
+      <button v-on:click="showPlace(place)">More Info</button>
+      <dialog id="place-details">
+        <form method="dialog">
+          <h1>Place Info</h1>
+          <p>
+            Name:
+            <input type="text" v-model="currentPlace.name" />
+          </p>
+          <p>
+            Address:
+            <input type="text" v-model="currentPlace.address" />
+          </p>
+          <button>Close</button>
+        </form>
+      </dialog>
     </div>
   </div>
 </template>
