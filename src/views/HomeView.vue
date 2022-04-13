@@ -38,6 +38,13 @@ export default {
         console.log("Updated", response.data);
       });
     },
+    destroyPlace: function (place) {
+      axios.delete("http://localhost:3000/places/" + place.id).then((response) => {
+        console.log("Place Deleted", response.data);
+        var index = this.places.indexOf(place);
+        this.places.splice(index, 1);
+      });
+    },
   },
 };
 </script>
@@ -71,8 +78,10 @@ export default {
             Address:
             <input type="text" v-model="currentPlace.address" />
           </p>
+          <!-- Update, Close, and Destroy Buttons -->
           <button v-on:click="updatePlace(currentPlace)">Update</button>
           <button>Close</button>
+          <button v-on:click="destroyPlace(currentPlace)">Delete</button>
         </form>
       </dialog>
     </div>
