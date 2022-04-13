@@ -32,6 +32,12 @@ export default {
         })
         .catch((error) => console.log(error.response));
     },
+    updatePlace: function (place) {
+      var editPlaceParams = place;
+      axios.patch("http://localhost:3000/places/" + place.id + ".json", editPlaceParams).then((response) => {
+        console.log("Updated", response.data);
+      });
+    },
   },
 };
 </script>
@@ -65,6 +71,7 @@ export default {
             Address:
             <input type="text" v-model="currentPlace.address" />
           </p>
+          <button v-on:click="updatePlace(currentPlace)">Update</button>
           <button>Close</button>
         </form>
       </dialog>
