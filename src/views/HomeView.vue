@@ -7,6 +7,7 @@ export default {
       message: "Places",
       places: [],
       currentPlace: {},
+      newPlaceParams: {},
     };
   },
   created: function () {
@@ -21,6 +22,16 @@ export default {
       this.currentPlace = place;
       document.querySelector("#place-details").showModal();
     },
+    createPlace: function () {
+      console.log("Adding a new Place");
+      axios
+        .post("http://localhost:3000/places.json", this.newPlaceParams)
+        .then((response) => {
+          console.log("Place Added", response.data);
+          this.places.push(response.data);
+        })
+        .catch((error) => console.log(error.response));
+    },
   },
 };
 </script>
@@ -28,7 +39,17 @@ export default {
 <template>
   <div class="home">
     <h1>{{ message }}</h1>
+    <!-- Create New Place -->
+    <h2>Input Info for New Place</h2>
+    <div>
+      Name:
+      <input type="text" v-model="newPlaceParams.name" />
+      Address:
+      <input type="text" v-model="newPlaceParams.address" />
+    </div>
+    <button v-on:click="createPlace()">Add New Place</button>
 
+    <!-- Index with Show Modal -->
     <div v-for="place in places" v-bind:key="place.id">
       <p>{{ place.name }}</p>
       <p>{{ place.address }}</p>
